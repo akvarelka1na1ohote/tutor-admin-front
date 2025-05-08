@@ -32,20 +32,27 @@ const SearchPagePerformer = () => {
   const [timetable, setTimetable] = useState([]);
   const [role, setRole] = useState(null);
   const [clients, setClients] = useState([]);
+  const [subjectMap, setSubjectMap] = useState({}); // Cache subject id -> name
 
-  // Fetch subjects on mount
+  // Fetch subjects on mount and create subject map
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
         const response = await api.api.subjectsList();
-        setSubjects(response.data.map(subject => ({
+        const subjectList = response.data.map(subject => ({
           id: subject.id,
           name: subject.name_Subject
-        })));
-        if (response.data.length > 0) {
+        }));
+        setSubjects(subjectList);
+        const map = subjectList.reduce((acc, subject) => {
+          acc[subject.id] = subject.name;
+          return acc;
+        }, {});
+        setSubjectMap(map);
+        if (subjectList.length > 0) {
           setSelectedSubject({
-            id: response.data[0].id,
-            name: response.data[0].name_Subject
+            id: subjectList[0].id,
+            name: subjectList[0].name_Subject
           });
         }
       } catch (error) {
@@ -62,7 +69,7 @@ const SearchPagePerformer = () => {
 
       // Subject filter (requires backend support, e.g., join with matchClients)
       if (selectedSubject) {
-        query.subjectId = selectedSubject.id; // Note: May not work without matchClients
+        query.subjectId = selectedSubject.id;
       }
 
       // Class filter
@@ -75,20 +82,20 @@ const SearchPagePerformer = () => {
         query[`course_${selectedCourse.id}`] = true;
       }
 
-      // Gender filter (only if "Мужской" or "Женский" selected, ignore "Неважно")
+      // Gender filter (requires DbUser.gender_User)
       if (gender.length > 0 && !gender.includes('Неважно')) {
         if (gender.length === 1) {
           query.gender_User = gender.includes('Мужской');
         }
       }
 
-      // Age filter (convert to birth year range)
+      // Age filter (convert to birth year range, requires DbUser.birth_User)
       if (ageRange.from || ageRange.to) {
         if (ageRange.from) {
-          query.birth_Year_To = CURRENT_YEAR - parseInt(ageRange.from); // Younger
+          query.birth_Year_To = CURRENT_YEAR - parseInt(ageRange.from);
         }
         if (ageRange.to) {
-          query.birth_Year_From = CURRENT_YEAR - parseInt(ageRange.to); // Older
+          query.birth_Year_From = CURRENT_YEAR - parseInt(ageRange.to);
         }
       }
 
@@ -116,10 +123,50 @@ const SearchPagePerformer = () => {
         query.len = location.includes('Лен.обл');
       }
 
-      // Note: Role and Timetable filters not applicable to DbClient
-
+      // Fetch clients
       const response = await api.api.clientsList({ query });
-      setClients(response.data);
+      const clientsData = response.data;
+
+      // Fetch related data for each client
+      const enrichedClients = await Promise.all(
+        clientsData.map(async (client) => {
+          try {
+            // Fetch DbUser data
+            const userResponse = client.userId
+              ? await api.api.usersDetail(client.userId)
+              : { data: {} };
+            const user = userResponse.data || {};
+
+            // Fetch matchClients to get subjects
+            const matchResponse = await api.api.matchClientsList({
+              query: { clientId: client.id }
+            });
+            const matches = matchResponse.data || [];
+            const subjectNames = matches
+              .filter(match => match.subjectId && subjectMap[match.subjectId])
+              .map(match => subjectMap[match.subjectId]);
+
+            return {
+              ...client,
+              name_User: user.name_User || 'Аноним',
+              birth_User: user.birth_User,
+              phone_User: user.phone_User,
+              email_User: user.email_User,
+              gender_User: user.gender_User,
+              subjects: subjectNames.length > 0 ? subjectNames : ['Не указаны']
+            };
+          } catch (error) {
+            console.error(`Failed to fetch related data for client ${client.id}:`, error);
+            return {
+              ...client,
+              name_User: 'Аноним',
+              subjects: ['Не указаны']
+            };
+          }
+        })
+      );
+
+      setClients(enrichedClients);
     } catch (error) {
       console.error('Failed to fetch clients:', error);
       setClients([]);
@@ -129,7 +176,7 @@ const SearchPagePerformer = () => {
   // Fetch clients whenever filters change
   useEffect(() => {
     fetchClients();
-  }, [selectedSubject, selectedClass, selectedCourse, gender, ageRange, experience, priceRange, place, location]);
+  }, [selectedSubject, selectedClass, selectedCourse, gender, ageRange, experience, priceRange, place, location, subjectMap]);
 
   return (
     <>
