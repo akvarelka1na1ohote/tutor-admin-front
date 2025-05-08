@@ -1,0 +1,1106 @@
+openapi: 3.0.1
+info:
+  title: backend
+  version: '1.0'
+paths:
+  /api/Clients:
+    get:
+      tags:
+        - Clients
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbClient'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbClient'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbClient'
+    post:
+      tags:
+        - Clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbClient'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbClient'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbClient'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbClient'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbClient'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbClient'
+  /api/Clients/{id}:
+    get:
+      tags:
+        - Clients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbClient'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbClient'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbClient'
+    put:
+      tags:
+        - Clients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbClient'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbClient'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbClient'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Clients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/MatchClients:
+    get:
+      tags:
+        - MatchClients
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbMatchClient'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbMatchClient'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbMatchClient'
+    post:
+      tags:
+        - MatchClients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchClient'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchClient'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbMatchClient'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbMatchClient'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchClient'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchClient'
+  /api/MatchClients/{id}:
+    get:
+      tags:
+        - MatchClients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbMatchClient'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchClient'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchClient'
+    put:
+      tags:
+        - MatchClients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchClient'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchClient'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbMatchClient'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - MatchClients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/MatchPerformers:
+    get:
+      tags:
+        - MatchPerformers
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbMatchPerformer'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbMatchPerformer'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbMatchPerformer'
+    post:
+      tags:
+        - MatchPerformers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchPerformer'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchPerformer'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbMatchPerformer'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbMatchPerformer'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchPerformer'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchPerformer'
+  /api/MatchPerformers/{id}:
+    get:
+      tags:
+        - MatchPerformers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbMatchPerformer'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchPerformer'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbMatchPerformer'
+    put:
+      tags:
+        - MatchPerformers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchPerformer'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbMatchPerformer'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbMatchPerformer'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - MatchPerformers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/Performers:
+    get:
+      tags:
+        - Performers
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbPerformer'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbPerformer'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbPerformer'
+    post:
+      tags:
+        - Performers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbPerformer'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbPerformer'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbPerformer'
+      responses:
+        '200':
+          description: OK
+  /api/Performers/{id}:
+    get:
+      tags:
+        - Performers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbPerformer'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbPerformer'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbPerformer'
+    put:
+      tags:
+        - Performers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbPerformer'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbPerformer'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbPerformer'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Performers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/Subjects:
+    get:
+      tags:
+        - Subjects
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbSubject'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbSubject'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbSubject'
+    post:
+      tags:
+        - Subjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbSubject'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbSubject'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbSubject'
+      responses:
+        '200':
+          description: OK
+  /api/Subjects/{id}:
+    get:
+      tags:
+        - Subjects
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbSubject'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbSubject'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbSubject'
+    put:
+      tags:
+        - Subjects
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbSubject'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbSubject'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbSubject'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Subjects
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/timetables-clients:
+    get:
+      tags:
+        - TimetablesClients
+      responses:
+        '200':
+          description: OK
+    post:
+      tags:
+        - TimetablesClients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetableClient'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetableClient'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbTimetableClient'
+      responses:
+        '200':
+          description: OK
+  /api/timetables-clients/{id}:
+    get:
+      tags:
+        - TimetablesClients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+    put:
+      tags:
+        - TimetablesClients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetableClient'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetableClient'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbTimetableClient'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - TimetablesClients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/TimetablesPerformers:
+    get:
+      tags:
+        - TimetablesPerformers
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbTimetablePerformer'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbTimetablePerformer'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbTimetablePerformer'
+    post:
+      tags:
+        - TimetablesPerformers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetablePerformer'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetablePerformer'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbTimetablePerformer'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbTimetablePerformer'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbTimetablePerformer'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbTimetablePerformer'
+  /api/TimetablesPerformers/{id}:
+    get:
+      tags:
+        - TimetablesPerformers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbTimetablePerformer'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbTimetablePerformer'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbTimetablePerformer'
+    put:
+      tags:
+        - TimetablesPerformers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetablePerformer'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbTimetablePerformer'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbTimetablePerformer'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - TimetablesPerformers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/Users:
+    get:
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbUser'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbUser'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DbUser'
+    post:
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbUser'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbUser'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbUser'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbUser'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbUser'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbUser'
+  /api/Users/{id}:
+    get:
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/DbUser'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DbUser'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DbUser'
+    put:
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DbUser'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DbUser'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DbUser'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    DbClient:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        user:
+          $ref: '#/components/schemas/DbUser'
+        id:
+          type: string
+          format: uuid
+        matchClients:
+          type: array
+          items:
+            $ref: '#/components/schemas/DbMatchClient'
+          nullable: true
+        clientToTimeId:
+          type: string
+          format: uuid
+        clientToTime:
+          $ref: '#/components/schemas/DbTimetableClient'
+        class_1:
+          type: boolean
+        class_2:
+          type: boolean
+        class_3:
+          type: boolean
+        class_4:
+          type: boolean
+        class_5:
+          type: boolean
+        class_6:
+          type: boolean
+        class_7:
+          type: boolean
+        class_8:
+          type: boolean
+        class_9:
+          type: boolean
+        class_10:
+          type: boolean
+        class_11:
+          type: boolean
+        course_1:
+          type: boolean
+        course_2:
+          type: boolean
+        course_3:
+          type: boolean
+        course_4:
+          type: boolean
+        course_5:
+          type: boolean
+        course_6:
+          type: boolean
+        course_vypusknik:
+          type: boolean
+        course_not_important:
+          type: boolean
+        about_Pupil:
+          type: string
+          nullable: true
+        сost_From:
+          type: integer
+          format: int32
+        сost_To:
+          type: integer
+          format: int32
+        age_From:
+          type: integer
+          format: int32
+        age_To:
+          type: integer
+          format: int32
+        timetable_Zayavka:
+          type: string
+          nullable: true
+        u_Pupil:
+          type: boolean
+        u_Tutor:
+          type: boolean
+        distant:
+          type: boolean
+        sPb:
+          type: boolean
+        len:
+          type: boolean
+        other:
+          type: string
+          nullable: true
+        with_Expirience:
+          type: boolean
+        without_Expirience:
+          type: boolean
+      additionalProperties: false
+    DbMatchClient:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        client:
+          $ref: '#/components/schemas/DbClient'
+        subjectId:
+          type: string
+          format: uuid
+        subject:
+          $ref: '#/components/schemas/DbSubject'
+      additionalProperties: false
+    DbMatchPerformer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        performerId:
+          type: string
+          format: uuid
+        performer:
+          $ref: '#/components/schemas/DbPerformer'
+        subjectId:
+          type: string
+          format: uuid
+        subject:
+          $ref: '#/components/schemas/DbSubject'
+      additionalProperties: false
+    DbPerformer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        matchPerformers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DbMatchPerformer'
+          nullable: true
+        performerToTimeId:
+          type: string
+          format: uuid
+        performerToTime:
+          $ref: '#/components/schemas/DbTimetablePerformer'
+        userId:
+          type: string
+          format: uuid
+        user:
+          $ref: '#/components/schemas/DbUser'
+        id_Role:
+          type: integer
+          format: int32
+        education_User:
+          type: string
+          nullable: true
+        course_User:
+          type: integer
+          format: int32
+        about_User:
+          type: string
+          nullable: true
+        timetable_Anketa:
+          type: string
+          nullable: true
+      additionalProperties: false
+    DbSubject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name_Subject:
+          type: string
+          nullable: true
+        matchClients:
+          type: array
+          items:
+            $ref: '#/components/schemas/DbMatchClient'
+          nullable: true
+        matchPerformers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DbMatchPerformer'
+          nullable: true
+      additionalProperties: false
+    DbTimetableClient:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        client:
+          $ref: '#/components/schemas/DbClient'
+        monday:
+          type: boolean
+        tuesday:
+          type: boolean
+        wednesday:
+          type: boolean
+        thursday:
+          type: boolean
+        friday:
+          type: boolean
+        saturday:
+          type: boolean
+        sunday:
+          type: boolean
+        arrangement:
+          type: boolean
+      additionalProperties: false
+    DbTimetablePerformer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        timeToPerformer:
+          $ref: '#/components/schemas/DbPerformer'
+        monday:
+          type: boolean
+        tuesday:
+          type: boolean
+        wednesday:
+          type: boolean
+        thursday:
+          type: boolean
+        friday:
+          type: boolean
+        saturday:
+          type: boolean
+        sunday:
+          type: boolean
+        arrangement:
+          type: boolean
+      additionalProperties: false
+    DbUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        performers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DbPerformer'
+          nullable: true
+        clients:
+          type: array
+          items:
+            $ref: '#/components/schemas/DbClient'
+          nullable: true
+        name_User:
+          type: string
+          nullable: true
+        birth_User:
+          type: string
+          format: date
+        gender_User:
+          type: boolean
+        phone_User:
+          type: string
+          nullable: true
+        email_User:
+          type: string
+          nullable: true
+      additionalProperties: false
