@@ -23,7 +23,7 @@ export default function Form({ item, type }) {
         <h2 className="font-bold text-gray-800">{fullInfo}</h2>
       </header>
       <hr className="border-t border-gray-200" />
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 text-gray-800">
         <p><strong>Тип:</strong> {isClient ? 'Клиент' : 'Репетитор'}</p>
         <p><strong>Стоимость заявки:</strong> {cost}</p>
         <p><strong>Стоимость из анкеты:</strong> {cost}</p>

@@ -9,7 +9,8 @@ const classes = [
   { id: 3, name: '3 курс' },
   { id: 4, name: '4 курс' },
   { id: 5, name: '5 курс' },
-  { id: 6, name: '6 курс' }
+  { id: 6, name: '6 курс' },
+  { id: 6, name: 'выпускник' }
 ];
 
 export default function Course({ selectedCourse, setSelectedCourse }) {
