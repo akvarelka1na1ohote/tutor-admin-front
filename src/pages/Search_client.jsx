@@ -1,57 +1,125 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Role from '../components/filters/tutor/role';
 import Items from '../components/filters/tutor/items';
 import Class from '../components/filters/tutor/class';
-import Gender from '../components/filters/tutor/gender'
-import Age from '../components/filters/tutor/age'
+import Gender from '../components/filters/tutor/gender';
+import Age from '../components/filters/tutor/age';
 import Courses from '../components/filters/tutor/course';
 import Experience from '../components/filters/tutor/experience';
 import Price from '../components/filters/tutor/price';
 import Place from '../components/filters/tutor/place';
 import Location from '../components/filters/tutor/location';
 import Timetable from '../components/filters/tutor/timetable';
-import Footer from '../components/footer/footer'
-
+import Footer from '../components/footer/footer';
 import SearchSwitchButtonClient from '../components/buttons/changeFromClientSearch.jsx';
+import { Api } from '../Api';
 
+const api = new Api();
 
-const SearchPageClient= () => {
+const SearchPageClient = () => {
+  const [subjects, setSubjects] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [gender, setGender] = useState([]);
+  const [ageRange, setAgeRange] = useState({ from: '', to: '' });
+  const [experience, setExperience] = useState([]);
+  const [priceRange, setPriceRange] = useState({ from: '', to: '' });
+  const [place, setPlace] = useState([]);
+  const [location, setLocation] = useState([]);
+  const [timetable, setTimetable] = useState([]);
+  const [performers, setPerformers] = useState([]);
 
-    
+  // Fetch subjects on mount
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        const response = await api.api.subjectsList();
+        setSubjects(response.data.map(subject => ({
+          id: subject.id,
+          name: subject.name_Subject
+        })));
+        if (response.data.length > 0) {
+          setSelectedSubject({
+            id: response.data[0].id,
+            name: response.data[0].name_Subject
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch subjects:', error);
+      }
+    };
+    fetchSubjects();
+  }, []);
 
-    return (
-        <>
-            <SearchSwitchButtonClient />
-            
-            <div className='bg-white  w-[300px] h-[1550px] mt-[30px]  ml-[120px] mb-[200px] rounded-lg relative '>
+  // Fetch performers based on filters
+  const fetchPerformers = async () => {
+    try {
+      const query = {};
+      if (selectedSubject) {
+        query.subjectId = selectedSubject.id;
+      }
+      // Add other filters as query params (e.g., age, gender, etc.)
+      if (ageRange.from) query.age_From = parseInt(ageRange.from);
+      if (ageRange.to) query.age_To = parseInt(ageRange.to);
+      if (priceRange.from) query.cost_From = parseInt(priceRange.from);
+      if (priceRange.to) query.cost_To = parseInt(priceRange.to);
+      if (place.length > 0) {
+        if (place.includes('Дистанционно')) query.distant = true;
+        if (place.includes('У ученика')) query.u_Pupil = true;
+        if (place.includes('У репетитора')) query.u_Tutor = true;
+      }
+      if (location.length > 0) {
+        if (location.includes('Санкт-Петербург')) query.sPb = true;
+        if (location.includes('Лен.обл')) query.len = true;
+      }
+      if (experience.length > 0) {
+        if (experience.includes('С опытом')) query.with_Expirience = true;
+        if (experience.includes('Без опыта')) query.without_Expirience = true;
+      }
+      if (gender.length > 0) {
+        if (gender.includes('Мужской')) query.gender_User = true;
+        if (gender.includes('Женский')) query.gender_User = false;
+      }
+      if (selectedClass) {
+        query[`class_${selectedClass.id}`] = true;
+      }
+      if (selectedCourse) {
+        query[`course_${selectedCourse.id}`] = true;
+      }
 
-                <Role/>
-                
-                <Items/>
+      // Fetch performers (you may need a custom endpoint for filtered search)
+      const response = await api.api.performersList({ query });
+      setPerformers(response.data);
+    } catch (error) {
+      console.error('Failed to fetch performers:', error);
+    }
+  };
 
-                <Class/>
+  // Fetch performers whenever filters change
+  useEffect(() => {
+    fetchPerformers();
+  }, [selectedSubject, selectedClass, selectedCourse, gender, ageRange, experience, priceRange, place, location, timetable]);
 
-                <Gender/>
+  return (
+    <>
+      <SearchSwitchButtonClient />
+      <div className='bg-white w-[300px] h-[1550px] mt-[30px] ml-[120px] mb-[200px] rounded-lg relative'>
+        <Role />
+        <Items subjects={subjects} selectedSubject={selectedSubject} setSelectedSubject={setSelectedSubject} />
+        <Class selectedClass={selectedClass} setSelectedClass={setSelectedClass} />
+        <Gender gender={gender} setGender={setGender} />
+        <Age ageRange={ageRange} setAgeRange={setAgeRange} />
+        <Courses selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} />
+        <Experience experience={experience} setExperience={setExperience} />
+        <Price priceRange={priceRange} setPriceRange={setPriceRange} />
+        <Place place={place} setPlace={setPlace} />
+        <Location location={location} setLocation={setLocation} />
+        <Timetable timetable={timetable} setTimetable={setTimetable} />
+      </div>
+      <Footer />
+    </>
+  );
+};
 
-                <Age/>
-
-                <Courses/>
-
-                <Experience/>
-
-                <Price/>
-
-                <Place/>
-
-                <Location/>
-                
-                <Timetable/>
-                
-
-            </div>
-            
-            <Footer/>
-        </>    
-    );
-};  
 export default SearchPageClient;
