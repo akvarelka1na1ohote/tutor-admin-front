@@ -16,6 +16,7 @@ import SearchSwitchButtonPerf from '../components/buttons/changeFromPerfSearch';
 import { Api } from '../Api';
 
 const api = new Api();
+const CURRENT_YEAR = 2025;
 
 const SearchPagePerformer = () => {
   const [subjects, setSubjects] = useState([]);
@@ -58,66 +59,77 @@ const SearchPagePerformer = () => {
   const fetchClients = async () => {
     try {
       const query = {};
+
+      // Subject filter (requires backend support, e.g., join with matchClients)
       if (selectedSubject) {
-        query.subjectId = selectedSubject.id;
+        query.subjectId = selectedSubject.id; // Note: May not work without matchClients
       }
-      if (ageRange.from) query.age_From = parseInt(ageRange.from);
-      if (ageRange.to) query.age_To = parseInt(ageRange.to);
-      if (priceRange.from) query.cost_From = parseInt(priceRange.from);
-      if (priceRange.to) query.cost_To = parseInt(priceRange.to);
-      if (place.length > 0) {
-        if (place.includes('Дистанционно')) query.distant = true;
-        if (place.includes('У ученика')) query.u_Pupil = true;
-        if (place.includes('У репетитора')) query.u_Tutor = true;
-      }
-      if (location.length > 0) {
-        if (location.includes('Санкт-Петербург')) query.sPb = true;
-        if (location.includes('Лен.обл')) query.len = true;
-      }
-      if (experience.length > 0) {
-        if (experience.includes('С опытом')) query.with_Expirience = true;
-        if (experience.includes('Без опыта')) query.without_Expirience = true;
-      }
-      if (gender.length > 0) {
-        if (gender.includes('Мужской')) query.gender_User = true;
-        if (gender.includes('Женский')) query.gender_User = false;
-      }
+
+      // Class filter
       if (selectedClass) {
         query[`class_${selectedClass.id}`] = true;
       }
+
+      // Course filter
       if (selectedCourse) {
         query[`course_${selectedCourse.id}`] = true;
       }
-      if (timetable.length > 0) {
-        timetable.forEach((day) => {
-          const dayMap = {
-            'По договоренности': 'arrangement',
-            'Понедельник': 'monday',
-            'Вторник': 'tuesday',
-            'Среда': 'wednesday',
-            'Четверг': 'thursday',
-            'Пятница': 'friday',
-            'Суббота': 'saturday',
-            'Воскресенье': 'sunday'
-          };
-          if (dayMap[day]) query[dayMap[day]] = true;
-        });
+
+      // Gender filter (only if "Мужской" or "Женский" selected, ignore "Неважно")
+      if (gender.length > 0 && !gender.includes('Неважно')) {
+        if (gender.length === 1) {
+          query.gender_User = gender.includes('Мужской');
+        }
       }
-      if (role !== null) {
-        query.id_Role = role;
+
+      // Age filter (convert to birth year range)
+      if (ageRange.from || ageRange.to) {
+        if (ageRange.from) {
+          query.birth_Year_To = CURRENT_YEAR - parseInt(ageRange.from); // Younger
+        }
+        if (ageRange.to) {
+          query.birth_Year_From = CURRENT_YEAR - parseInt(ageRange.to); // Older
+        }
       }
+
+      // Experience filter (only if "С опытом" or "Без опыта" selected, ignore "Неважно")
+      if (experience.length > 0 && !experience.includes('Неважно')) {
+        if (experience.length === 1) {
+          query.with_Expirience = experience.includes('С опытом');
+        }
+      }
+
+      // Price filter
+      if (priceRange.from) query.cost_From = parseInt(priceRange.from);
+      if (priceRange.to) query.cost_To = parseInt(priceRange.to);
+
+      // Place filter
+      if (place.length > 0) {
+        query.distant = place.includes('Дистанционно');
+        query.u_Pupil = place.includes('У ученика');
+        query.u_Tutor = place.includes('У репетитора');
+      }
+
+      // Location filter (only if "Санкт-Петербург" or "Лен.обл" selected, ignore "Неважно")
+      if (location.length > 0 && !location.includes('Неважно')) {
+        query.sPb = location.includes('Санкт-Петербург');
+        query.len = location.includes('Лен.обл');
+      }
+
+      // Note: Role and Timetable filters not applicable to DbClient
 
       const response = await api.api.clientsList({ query });
       setClients(response.data);
     } catch (error) {
       console.error('Failed to fetch clients:', error);
+      setClients([]);
     }
   };
 
   // Fetch clients whenever filters change
   useEffect(() => {
     fetchClients();
-  }, [selectedSubject, selectedClass, selectedCourse, gender, ageRange, experience, priceRange, place, location, timetable, role]);
+  }, [selectedSubject, selectedClass, selectedCourse, gender, ageRange, experience, priceRange, place, location]);
 
   return (
     <>

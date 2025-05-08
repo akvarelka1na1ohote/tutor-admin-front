@@ -16,6 +16,7 @@ import SearchSwitchButtonClient from '../components/buttons/changeFromClientSear
 import { Api } from '../Api';
 
 const api = new Api();
+const CURRENT_YEAR = 2025;
 
 const SearchPageClient = () => {
   const [subjects, setSubjects] = useState([]);
@@ -58,66 +59,60 @@ const SearchPageClient = () => {
   const fetchPerformers = async () => {
     try {
       const query = {};
+
+      // Subject filter (requires backend support, e.g., join with matchPerformers)
       if (selectedSubject) {
-        query.subjectId = selectedSubject.id;
+        query.subjectId = selectedSubject.id; // Note: May not work without matchPerformers
       }
-      if (ageRange.from) query.age_From = parseInt(ageRange.from);
-      if (ageRange.to) query.age_To = parseInt(ageRange.to);
-      if (priceRange.from) query.cost_From = parseInt(priceRange.from);
-      if (priceRange.to) query.cost_To = parseInt(priceRange.to);
-      if (place.length > 0) {
-        if (place.includes('Дистанционно')) query.distant = true;
-        if (place.includes('У ученика')) query.u_Pupil = true;
-        if (place.includes('У репетитора')) query.u_Tutor = true;
-      }
-      if (location.length > 0) {
-        if (location.includes('Санкт-Петербург')) query.sPb = true;
-        if (location.includes('Лен.обл')) query.len = true;
-      }
-      if (experience.length > 0) {
-        if (experience.includes('С опытом')) query.with_Expirience = true;
-        if (experience.includes('Без опыта')) query.without_Expirience = true;
-      }
-      if (gender.length > 0) {
-        if (gender.includes('Мужской')) query.gender_User = true;
-        if (gender.includes('Женский')) query.gender_User = false;
-      }
-      if (selectedClass) {
-        query[`class_${selectedClass.id}`] = true;
-      }
-      if (selectedCourse) {
-        query[`course_${selectedCourse.id}`] = true;
-      }
-      if (timetable.length > 0) {
-        timetable.forEach((day) => {
-          const dayMap = {
-            'По договоренности': 'arrangement',
-            'Понедельник': 'monday',
-            'Вторник': 'tuesday',
-            'Среда': 'wednesday',
-            'Четверг': 'thursday',
-            'Пятница': 'friday',
-            'Суббота': 'saturday',
-            'Воскресенье': 'sunday'
-          };
-          if (dayMap[day]) query[dayMap[day]] = true;
-        });
-      }
+
+      // Role filter
       if (role !== null) {
         query.id_Role = role;
       }
+
+      // Course filter (DbPerformer.course_User)
+      if (selectedCourse) {
+        query.course_User = selectedCourse.id;
+      }
+
+      // Gender filter (only if "Мужской" or "Женский" selected, ignore "Неважно")
+      if (gender.length > 0 && !gender.includes('Неважно')) {
+        if (gender.length === 1) {
+          query.gender_User = gender.includes('Мужской');
+        }
+      }
+
+      // Age filter (convert to birth year range)
+      if (ageRange.from || ageRange.to) {
+        if (ageRange.from) {
+          query.birth_Year_To = CURRENT_YEAR - parseInt(ageRange.from); // Younger
+        }
+        if (ageRange.to) {
+          query.birth_Year_From = CURRENT_YEAR - parseInt(ageRange.to); // Older
+        }
+      }
+
+      // Experience filter (only if "С опытом" or "Без опыта" selected, ignore "Неважно")
+      if (experience.length > 0 && !experience.includes('Неважно')) {
+        if (experience.length === 1) {
+          query.with_Expirience = experience.includes('С опытом');
+        }
+      }
+
+      // Note: Class, Price, Place, Location, Timetable filters not applicable to DbPerformer
 
       const response = await api.api.performersList({ query });
       setPerformers(response.data);
     } catch (error) {
       console.error('Failed to fetch performers:', error);
+      setPerformers([]);
     }
   };
 
   // Fetch performers whenever filters change
   useEffect(() => {
     fetchPerformers();
-  }, [selectedSubject, selectedClass, selectedCourse, gender, ageRange, experience, priceRange, place, location, timetable, role]);
+  }, [selectedSubject, selectedCourse, gender, ageRange, experience, role]);
 
   return (
     <>
