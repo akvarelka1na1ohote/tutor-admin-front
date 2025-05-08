@@ -66,7 +66,7 @@ export default function Form({ item, type }) {
   }
 
   return (
-    <div className="rounded overflow-hidden shadow-lg border border-gray-200 mb-4 w-[800px]">
+    <div className="rounded overflow-hidden shadow-lg border border-gray-200 mb-4 ml-30 w-[800px]">
       <header className="bg-gray-100 border-b border-gray-200 px-6 py-4">
         <h2 className="font-bold text-gray-800">{fullInfo}</h2>
       </header>
@@ -77,7 +77,6 @@ export default function Form({ item, type }) {
           <div>
             <p><strong>Тип:</strong> {isClient ? 'Клиент' : 'Репетитор'}</p>
             <p><strong>Пол:</strong> {gender}</p>
-            <p><strong>Возраст:</strong> {age} лет</p>
           </div>
           <div>
             <p><strong>Телефон:</strong> {phone}</p>
