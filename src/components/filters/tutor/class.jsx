@@ -1,66 +1,31 @@
-import { useState } from 'react'
-import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
-import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
-import { CheckIcon } from '@heroicons/react/20/solid'
+import { useState } from 'react';
+import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
+import { ChevronUpDownIcon } from '@heroicons/react/16/solid';
+import { CheckIcon } from '@heroicons/react/20/solid';
 
 const classes = [
-  {
-    id: 1,
-    name: '1 класс'
-  },
-  {
-    id: 2,
-    name: '2 класс'
-  },
-  {
-    id: 3,
-    name: '3 класс'
-  },
-  {
-    id: 4,
-    name: '4 класс'
-  },
-  {
-    id: 5,
-    name: '5 класс'
-  },
-  {
-    id: 6,
-    name: '6 класс'
-  },
-  {
-    id: 7,
-    name: '7 класс'
-  },
-  {
-    id: 8,
-    name: '8 класс'
-  },
-  {
-    id: 9,
-    name: '9 класс'
-  },
-  {
-    id: 10,
-    name: '10 класс'
-  },
-  {
-    id: 11,
-    name: '11 класс'
-  }
-]
+  { id: 1, name: '1 класс' },
+  { id: 2, name: '2 класс' },
+  { id: 3, name: '3 класс' },
+  { id: 4, name: '4 класс' },
+  { id: 5, name: '5 класс' },
+  { id: 6, name: '6 класс' },
+  { id: 7, name: '7 класс' },
+  { id: 8, name: '8 класс' },
+  { id: 9, name: '9 класс' },
+  { id: 10, name: '10 класс' },
+  { id: 11, name: '11 класс' }
+];
 
-export default function Class() {
-  const [selected, setSelected] = useState(classes[1])
-
+export default function Class({ selectedClass, setSelectedClass }) {
   return (
-    <Listbox value={selected} onChange={setSelected}>
-      <div className="space-y-4  absolute top-[250px] left-[30px]">
+    <Listbox value={selectedClass} onChange={setSelectedClass}>
+      <div className="space-y-4 absolute top-[250px] left-[30px]">
         <Label className="block text-sm/6 font-medium text-black">Класс ученика</Label>
         <div className="relative mt-2">
-          <ListboxButton className="grid w-[240px] cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+          <ListboxButton className="grid w-[露析: 240px cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
             <span className="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-              <span className="block truncate">{selected.name}</span>
+              <span className="block truncate">{selectedClass?.name || 'Выберите класс'}</span>
             </span>
             <ChevronUpDownIcon
               aria-hidden="true"
@@ -88,8 +53,8 @@ export default function Class() {
               </ListboxOption>
             ))}
           </ListboxOptions>
-          </div>
+        </div>
       </div>
     </Listbox>
-  )
+  );
 }
