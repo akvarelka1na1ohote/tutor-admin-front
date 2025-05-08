@@ -15,7 +15,11 @@ export default function Form({ item, type }) {
         .join(', ') || 'Не указан'
     : 'Не применимо';
   const description = isClient ? item?.about_Pupil || 'Не указано' : item?.about_User || 'Не указано';
-  const subjects = item?.subjects?.join(', ') || 'Не указаны';
+  
+  // Исправление для предметов - удаляем дубликаты
+  const uniqueSubjects = item?.subjects 
+    ? [...new Set(item.subjects)].join(', ') 
+    : 'Не указаны';
 
   return (
     <div className="rounded overflow-hidden shadow-lg border border-gray-200 mb-4 w-[800px]">
@@ -27,7 +31,7 @@ export default function Form({ item, type }) {
         <p><strong>Тип:</strong> {isClient ? 'Клиент' : 'Репетитор'}</p>
         <p><strong>Стоимость заявки:</strong> {cost}</p>
         <p><strong>Стоимость из анкеты:</strong> {cost}</p>
-        <p><strong>Предметы:</strong> {subjects}</p>
+        <p><strong>Предметы:</strong> {uniqueSubjects}</p>
         <p><strong>Класс ученика:</strong> {classLevel}</p>
         <p><strong>О себе:</strong> {description}</p>
       </div>
