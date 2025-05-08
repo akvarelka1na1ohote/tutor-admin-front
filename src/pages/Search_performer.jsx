@@ -10,6 +10,7 @@ import Price from '../components/filters/tutor/price';
 import Place from '../components/filters/tutor/place';
 import Location from '../components/filters/tutor/location';
 import Timetable from '../components/filters/tutor/timetable';
+import Form from '../components/filters/form';
 import Footer from '../components/footer/footer';
 import SearchSwitchButtonPerf from '../components/buttons/changeFromPerfSearch';
 import { Api } from '../Api';
@@ -106,7 +107,6 @@ const SearchPagePerformer = () => {
         query.id_Role = role;
       }
 
-      // Fetch clients
       const response = await api.api.clientsList({ query });
       setClients(response.data);
     } catch (error) {
@@ -122,18 +122,29 @@ const SearchPagePerformer = () => {
   return (
     <>
       <SearchSwitchButtonPerf />
-      <div className='bg-white w-[300px] h-[1550px] mt-[30px] ml-[120px] mb-[200px] rounded-lg relative'>
-        <Role role={role} setRole={setRole} />
-        <Items subjects={subjects} selectedSubject={selectedSubject} setSelectedSubject={setSelectedSubject} />
-        <Class selectedClass={selectedClass} setSelectedClass={setSelectedClass} />
-        <Gender gender={gender} setGender={setGender} />
-        <Age ageRange={ageRange} setAgeRange={setAgeRange} />
-        <Courses selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} />
-        <Experience experience={experience} setExperience={setExperience} />
-        <Price priceRange={priceRange} setPriceRange={setPriceRange} />
-        <Place place={place} setPlace={setPlace} />
-        <Location location={location} setLocation={setLocation} />
-        <Timetable timetable={timetable} setTimetable={setTimetable} />
+      <div className="flex">
+        <div className="bg-white w-[300px] h-[1550px] mt-[30px] ml-[120px] mb-[200px] rounded-lg relative">
+          <Role role={role} setRole={setRole} />
+          <Items subjects={subjects} selectedSubject={selectedSubject} setSelectedSubject={setSelectedSubject} />
+          <Class selectedClass={selectedClass} setSelectedClass={setSelectedClass} />
+          <Gender gender={gender} setGender={setGender} />
+          <Age ageRange={ageRange} setAgeRange={setAgeRange} />
+          <Courses selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} />
+          <Experience experience={experience} setExperience={setExperience} />
+          <Price priceRange={priceRange} setPriceRange={setPriceRange} />
+          <Place place={place} setPlace={setPlace} />
+          <Location location={location} setLocation={setLocation} />
+          <Timetable timetable={timetable} setTimetable={setTimetable} />
+        </div>
+        <div className="mt-[30px] ml-[50px] absolute left-[370px] top-[200px]">
+          {clients.length > 0 ? (
+            clients.map((client) => (
+              <Form key={client.id} item={client} type="client" />
+            ))
+          ) : (
+            <p className="text-gray-600">Клиенты не найдены</p>
+          )}
+        </div>
       </div>
       <Footer />
     </>
