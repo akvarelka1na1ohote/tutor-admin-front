@@ -19,7 +19,7 @@ import CreatedForm from './pages/Form.jsx';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/herzen-tutor'>
      <Header/>
       <Routes>
         <Route path='/search' element={<SearchPage />} />
