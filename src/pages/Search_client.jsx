@@ -165,7 +165,7 @@ const SearchPageClient = () => {
     <>
       <SearchSwitchButtonClient />
       <div className="flex">
-        <div className="bg-white w-[300px] h-[1550px] mt-[30px] ml-[120px] mb-[200px] rounded-lg relative">
+        <div className="bg-white w-[300px] h-[1550px] mt-[30px] ml-[120px] mb-[4000px] rounded-lg relative">
           <Role role={role} setRole={setRole} />
           <Items subjects={subjects} selectedSubject={selectedSubject} setSelectedSubject={setSelectedSubject} />
           <Class selectedClass={selectedClass} setSelectedClass={setSelectedClass} />
